@@ -23,6 +23,7 @@ class ApplicantsController < ApplicationController
   # POST /applicants
   def create
     @applicant = Applicant.new(applicant_params)
+    @status = Status.create(status_type: 'applied', comment: 'New applicant', applicant: @applicant)
 
     if @applicant.save
       redirect_to @applicant, notice: 'Applicant was successfully created.'
@@ -55,6 +56,6 @@ class ApplicantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def applicant_params
-    params.require(:applicant).permit(:name, :overview, :funding, :project_id, :status)
+    params.require(:applicant).permit(:name, :overview, :funding, :project_id, statuses_attributes: [:status_type, :comment])
   end
 end
