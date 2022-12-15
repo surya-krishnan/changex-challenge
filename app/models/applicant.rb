@@ -10,7 +10,13 @@ class Applicant < ApplicationRecord
 
   belongs_to :project
 
-  enum status: { applied: 0, initial_review: 1, more_information_required: 2, declined: 3, approved: 4 }
+  has_many :statuses, dependent: :destroy
+
+  accepts_nested_attributes_for :statuses, reject_if: :all_blank
+
+  def latest_status
+    statuses.order(id: :desc).first.status_type
+  end
 
   def project_title
     'Project'

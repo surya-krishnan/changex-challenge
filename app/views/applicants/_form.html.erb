@@ -33,12 +33,16 @@
 
   <% unless applicant.new_record? %>
     <div>
-      <%= form.label :status, style: "display: block" %>
-      <%=
-        form.select :status, options_for_select(
-          Applicant.statuses.map {|key, value| [key.titleize, Applicant.statuses.key(value)]}, applicant.status
-        )
-      %>
+      <%= form.fields_for :statuses, @applicant.statuses.build do |status_form| %> 
+        <%= status_form.label :status, style: "display: block" %>
+        <%=
+          status_form.select :status_type, options_for_select(
+            Status.status_types.map { |k, v| [k.titleize, Status.status_types.key(v)] }, applicant.latest_status || 0
+          )
+        %>
+        <%= status_form.label :comment, style: "display: block" %>
+        <%= status_form.text_field :comment %>
+      <% end %>
     </div>
   <% end %>
 

@@ -20,8 +20,26 @@
   </p>
 
   <p>
-    <strong>Status:</strong>
-    <%= applicant.status.titleize %>
+    <strong>Status Updates:</strong>
   </p>
+
+  <table id="applicants">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% applicant.statuses.each do |status| %>
+      <tr>
+        <td><%= status.created_at %></td>
+        <td><%= status.status_type.titleize %></td>
+        <td><%= status.comment %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 
 </div>
